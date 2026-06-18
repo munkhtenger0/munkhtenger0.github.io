@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Munkhtenger Enkhbold — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #F7F5F0;
+    --paper-dim: #EFEBE2;
+    --ink: #1C1C1A;
+    --ink-soft: #4A4742;
+    --gray: #8C8880;
+    --ledger-green: #1F4D3D;
+    --ledger-green-light: #E8EFEA;
+    --rule: #D8D3C7;
+    --red-debit: #8B3A2E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  h1, h2, h3 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .mono {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  a { color: var(--ledger-green); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
+    z-index: 10;
+  }
+  nav .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 32px;
+  }
+  .nav-name {
+    font-family: 'Source Serif 4', serif;
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    font-size: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .nav-links a {
+    color: var(--ink-soft);
+  }
+  .nav-links a:hover {
+    color: var(--ledger-green);
+    text-decoration: none;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--ledger-green);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: 42px;
+    line-height: 1.15;
+    margin-bottom: 20px;
+    max-width: 620px;
+  }
+  .hero p {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 560px;
+    margin-bottom: 28px;
+  }
+  .hero-links {
+    display: flex;
+    gap: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    flex-wrap: wrap;
+  }
+
+  /* LEDGER SIGNATURE ELEMENT */
+  .ledger {
+    margin-top: 48px;
+    border: 1px solid var(--rule);
+    background: white;
+  }
+  .ledger-head {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--gray);
+    border-bottom: 1px solid var(--rule);
+    padding: 12px 20px;
+  }
+  .ledger-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--rule);
+    font-size: 14px;
+    align-items: center;
+  }
+  .ledger-row:last-child { border-bottom: none; }
+  .ledger-row .figure {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .ledger-row .label {
+    color: var(--ink-soft);
+  }
+  .ledger-total {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 14px 20px;
+    background: var(--ledger-green-light);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ledger-green);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 56px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--gray);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  /* ABOUT */
+  .about-text {
+    max-width: 640px;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  .about-text p { margin-bottom: 16px; }
+
+  /* EXPERIENCE */
+  .job {
+    margin-bottom: 36px;
+  }
+  .job:last-child { margin-bottom: 0; }
+  .job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .job-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .job-org {
+    color: var(--ledger-green);
+    font-weight: 500;
+  }
+  .job-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--gray);
+  }
+  .job ul {
+    list-style: none;
+    margin-top: 10px;
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+  .job ul li {
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .job ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--gray);
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 28px;
+  }
+  .skill-group p {
+    line-height: 1.55;
+  }
+  .skill-group-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ledger-green);
+    margin-bottom: 10px;
+  }
+  .skill-group p {
+    color: var(--ink-soft);
+    font-size: 15px;
+  }
+
+  /* PROJECTS */
+  .project {
+    border: 1px solid var(--rule);
+    background: white;
+    margin-bottom: 24px;
+  }
+  .project:last-child { margin-bottom: 0; }
+  .project-head {
+    padding: 24px 28px 0;
+  }
+  .project-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--ledger-green);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 10px;
+  }
+  .project-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 21px;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  .project-desc {
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 600px;
+    margin-bottom: 18px;
+  }
+  .project-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--rule);
+  }
+  .project-stat {
+    padding: 16px 28px;
+    border-right: 1px solid var(--rule);
+  }
+  .project-stat:last-child { border-right: none; }
+  .project-stat .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .project-stat .lbl {
+    font-size: 12px;
+    color: var(--gray);
+    margin-top: 2px;
+  }
+  .project-links {
+    padding: 16px 28px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    gap: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+  }
+
+  /* EDUCATION */
+  .edu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .edu-item:last-child { border-bottom: none; }
+  .edu-degree {
+    font-weight: 500;
+  }
+  .edu-school {
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  .edu-date {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 0 56px;
+    text-align: center;
+  }
+  footer p {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  @media (max-width: 640px) {
+    .wrap { padding: 0 20px; }
+    nav .wrap { padding: 16px 20px; flex-wrap: wrap; gap: 10px; }
+    .nav-name { font-size: 15px; }
+    .hero { padding: 48px 0 40px; }
+    .hero h1 { font-size: 30px; }
+    .hero p { font-size: 16px; }
+    .nav-links { gap: 16px; font-size: 12px; }
+    .ledger-head, .ledger-row, .ledger-total {
+      grid-template-columns: 1.3fr 1.3fr 0.8fr;
+      padding: 12px 14px;
+      font-size: 12px;
+    }
+    .skills-grid { grid-template-columns: 1fr; }
+    .project-stats { grid-template-columns: 1fr; }
+    .project-stat { border-right: none; border-bottom: 1px solid var(--rule); }
+    .project-stat:last-child { border-bottom: none; }
+    .hero-links { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-name">Munkhtenger Enkhbold</div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-label">Data Analyst · Former Auditor</div>
+    <h1>I make sure the numbers are actually right, then make them easy to act on.</h1>
+    <p>Munkhtenger Enkhbold. Three years auditing financial data at EY and Mongolia's Ministry of Finance, now building the kind of analysis I used to review by hand.</p>
+    <div class="hero-links">
+      <a href="mailto:munkhtengery@gmail.com">munkhtengery@gmail.com</a>
+      <a href="tel:5717261282">571-726-1282</a>
+      <a href="https://www.linkedin.com/in/munkhtenger-enkhbold/" target="_blank">LinkedIn</a>
+      <a href="https://github.com/munkhtenger0" target="_blank">GitHub</a>
+      <a href="Resume.pdf" target="_blank" style="color: var(--ink); border-bottom: 1px solid var(--ledger-green);">Download résumé →</a>
+    </div>
+
+    <div class="ledger">
+      <div class="ledger-head">
+        <div>Role</div>
+        <div>Organization</div>
+        <div>Period</div>
+      </div>
+      <div class="ledger-row">
+        <div class="label">Financial Data Analyst</div>
+        <div class="mono" style="font-size:13px;">Ministry of Finance, Mongolia</div>
+        <div class="figure">2025</div>
+      </div>
+      <div class="ledger-row">
+        <div class="label">Assurance Senior Associate</div>
+        <div class="mono" style="font-size:13px;">Ernst & Young Mongolia</div>
+        <div class="figure">2022–2025</div>
+      </div>
+      <div class="ledger-row">
+        <div class="label">Finance Intern</div>
+        <div class="mono" style="font-size:13px;">Mongolian Mortgage Corp.</div>
+        <div class="figure">2022</div>
+      </div>
+      <div class="ledger-total">
+        <div>Total experience</div>
+        <div>Financial data &amp; audit</div>
+        <div>3 years</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-label">About</div>
+    <div class="about-text">
+      <p>I spent three years inside the kind of work where being slightly wrong is not an option. At Ernst & Young Mongolia, I handled data collection and reporting across more than ten client engagements, including the Development Bank of Mongolia and Mongolian Mining Corporation. At the Ministry of Finance, I tracked budget variances across government departments where a missed discrepancy could affect national reporting cycles.</p>
+      <p>That background changed how I think about data. I do not just build a chart and move on. I check where the numbers came from, whether they reconcile, and whether the story they tell actually holds up. I am now finishing an M.S. in Data Analytics at the University of Potomac, applying that same scrutiny to SQL, Python, and the kind of automated analysis that used to take me and a spreadsheet several days to do by hand.</p>
+      <p>I am currently looking for a data analyst role or internship in the US, ideally somewhere that values getting the number right the first time as much as I do.</p>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-label">Experience</div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title">Financial Data Analyst <span class="job-org">— Ministry of Finance of Mongolia</span></div>
+        <div class="job-date">2025</div>
+      </div>
+      <ul>
+        <li>Collected and analyzed financial data from multiple government departments to support national budget monitoring and quarterly reporting cycles</li>
+        <li>Tracked budget variances across departments and flagged discrepancies for senior review before reports reached leadership</li>
+        <li>Built Excel based reporting templates that standardized how financial information was consolidated across units, cutting down manual work on recurring deliverables</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title">Assurance Senior Associate <span class="job-org">— Ernst & Young Mongolia</span></div>
+        <div class="job-date">2022 to 2025</div>
+      </div>
+      <ul>
+        <li>Handled data collection, analysis, and performance reporting across 10+ client engagements, including the Development Bank of Mongolia and Mongolian Mining Corporation</li>
+        <li>Analyzed financial and operational trends across client portfolios, turning findings into structured reports for leadership who needed clarity, not raw numbers</li>
+        <li>Built Excel dashboards and Power BI and Tableau reports tracking KPIs across 3+ concurrent engagements, moving clients from manual updates to consistent visual reporting</li>
+        <li>Ran QA checks on client datasets before delivery, catching inconsistencies that would have affected reporting accuracy and audit readiness</li>
+        <li>Coordinated with operations, compliance, and third party teams to keep deliverables on schedule under competing priorities</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div class="job-title">Finance Intern <span class="job-org">— Mongolian Mortgage Corporation</span></div>
+        <div class="job-date">2022</div>
+      </div>
+      <ul>
+        <li>Tracked loan portfolio metrics and supported management reporting on repayment trends</li>
+        <li>Maintained records for audit readiness</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-label">Projects</div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-tag">Featured</div>
+        <div class="project-title">Forensic Financial Analytics</div>
+        <p class="project-desc">An earnings manipulation risk scoring tool built on the Beneish M-Score, the same kind of red flag analysis I used to run by hand at EY, now automated against live SEC filings. Pulls real financial statements straight from the SEC EDGAR API and scores any public company in seconds.</p>
+      </div>
+      <img src="mscore_chart.png" alt="Beneish M-Score chart ranking 21 companies by earnings manipulation risk" style="width: 100%; display: block; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);">
+      <div class="project-stats">
+        <div class="project-stat">
+          <div class="num">21</div>
+          <div class="lbl">Companies analyzed</div>
+        </div>
+        <div class="project-stat">
+          <div class="num">4</div>
+          <div class="lbl">Flagged high risk</div>
+        </div>
+        <div class="project-stat">
+          <div class="num">8</div>
+          <div class="lbl">Ratios calculated</div>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/munkhtenger0/forensic-financial-analytics" target="_blank">View on GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-head">
+        <div class="project-tag">Project</div>
+        <div class="project-title">Arlington County Crash Analysis</div>
+        <p class="project-desc">An exploratory analysis of traffic crash patterns across Arlington, Virginia, built to support the county's Vision Zero safety goals. Surfaces peak crash hours, high risk corridors, and pedestrian and cyclist exposure by location.</p>
+      </div>
+      <img src="arlington_crash_chart.png" alt="Arlington County crash analysis showing crashes by hour, corridor concentration, pedestrian and cyclist hotspots, and severity distribution" style="width: 100%; display: block; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);">
+      <div class="project-stats">
+        <div class="project-stat">
+          <div class="num">5</div>
+          <div class="lbl">Years of crash data</div>
+        </div>
+        <div class="project-stat">
+          <div class="num">9%</div>
+          <div class="lbl">Serious or fatal crashes</div>
+        </div>
+        <div class="project-stat">
+          <div class="num">5–6pm</div>
+          <div class="lbl">Highest risk window</div>
+        </div>
+      </div>
+      <div class="project-links">
+        <a href="https://github.com/munkhtenger0/arlington-crash-analysis" target="_blank">View on GitHub →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">Skills</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Data analysis</div>
+        <p>SQL (joins, window functions, aggregation), Python (pandas, numpy, matplotlib), Excel (pivot tables, VLOOKUP/XLOOKUP, financial modeling), statistical analysis, variance and trend analysis</p>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Visualization &amp; reporting</div>
+        <p>Power BI, Tableau, Excel dashboards, KPI tracking, executive level reporting for non-technical audiences</p>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Data quality &amp; pipelines</div>
+        <p>Data cleaning, validation, QA testing, reconciliation, REST API integration, working with messy or inconsistent real world datasets</p>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Financial &amp; domain knowledge</div>
+        <p>Financial statement analysis, audit methodology, budget variance analysis, KPI design, working with banking, infrastructure, and government data</p>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Tools</div>
+        <p>Git and GitHub, Jupyter, VS Code, SEC EDGAR and other public data APIs</p>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Languages</div>
+        <p>English (professional), Mongolian (native)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-label">Education</div>
+    <div class="edu-item">
+      <div>
+        <div class="edu-degree">M.S. in Data Analytics, Business Analytics Concentration</div>
+        <div class="edu-school">University of Potomac, Arlington, VA</div>
+      </div>
+      <div class="edu-date">Expected June 2027</div>
+    </div>
+    <div class="edu-item">
+      <div>
+        <div class="edu-degree">B.S. in Financial Administration</div>
+        <div class="edu-school">University of Finance and Economics, Mongolia</div>
+      </div>
+      <div class="edu-date">Graduated</div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <p>Arlington, VA · 571-726-1282 · munkhtengery@gmail.com · <a href="https://www.linkedin.com/in/munkhtenger-enkhbold/" target="_blank">LinkedIn</a> · <a href="https://github.com/munkhtenger0" target="_blank">GitHub</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
